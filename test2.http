@@ -1,0 +1,37 @@
+@authToken = {{loginUser.response.body.token}}
+@host = http://localhost:3000
+@api_path = /api
+### test.http
+
+# @name loginUser
+POST https://api-endl.onrender.com/api/auth/login
+Content-Type: application/json
+
+{
+    "correo": "ana.gomez@example.com",
+    "contraseña": "passwordSeguro123"
+}
+
+### 
+
+GET https://api-endl.onrender.com/api/users
+# --- ESTA LÍNEA ES LA CLAVE ---
+Authorization: Bearer {{authToken}}
+
+###
+
+# test.http
+
+POST https://api-endl.onrender.com/api/users
+Content-Type: application/json
+# Usa el token del admin que inició sesión
+Authorization: Bearer {{authToken}}
+
+{
+  "nombre": "Carlos",
+  "apellidos": "Rivas",
+  "nick": "newadmin",
+  "correo": "admin.nuevo@example.com",
+  "contraseña": "otraPasswordSegura456",
+  "perfil_id": "68f059ef20f76df3e46139a5"
+}

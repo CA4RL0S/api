@@ -7,7 +7,8 @@ const api = express.Router();
 
 api.get('/users', authenticateAdmin, get);
 api.get('/users/:id', authenticateAdmin, getById);
-api.post('/users', authenticateAdmin, validatorUserCreate, create);
+//api.post('/users', authenticateAdmin, validatorUserCreate, create);
+api.post('/users', validatorUserCreate, create);
 api.put('/users/:id', authenticateAdmin, validatorUserUpdate, update);
 api.delete('/users/:id', authenticateAdmin, destroy);
 
