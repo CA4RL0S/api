@@ -1,10 +1,11 @@
-@authToken = {{loginUser.response.body.token}}
-@host = http://localhost:3000
-@api_path = /api
-### test.http
+@host = https://api-endl.onrender.com
 
-# @name loginUser
-POST https://api-endl.onrender.com/api/auth/login
+@authToken = {{loginAdmin.response.body.token}}
+
+###
+
+# @name loginAdmin
+POST {{host}}/api/auth/login
 Content-Type: application/json
 
 {
@@ -12,26 +13,32 @@ Content-Type: application/json
     "contraseña": "passwordSeguro123"
 }
 
-### 
-
-GET https://api-endl.onrender.com/api/users
-# --- ESTA LÍNEA ES LA CLAVE ---
+###
+GET {{host}}/api/users
 Authorization: Bearer {{authToken}}
 
 ###
 
-# test.http
-
-POST https://api-endl.onrender.com/api/users
+POST {{host}}/api/users
 Content-Type: application/json
-# Usa el token del admin que inició sesión
 Authorization: Bearer {{authToken}}
 
 {
   "nombre": "Carlos",
   "apellidos": "Rivas",
-  "nick": "newadmin",
-  "correo": "admin.nuevo@example.com",
-  "contraseña": "otraPasswordSegura456",
+  "nick": "crivas_admin",
+  "correo": "carlos.rivas@example.com",
+  "contraseña": "PasswordSuperSegura789",
   "perfil_id": "68f059ef20f76df3e46139a5"
+}
+
+###
+
+# @name loginAdmin
+POST {{host}}/api/auth/login
+Content-Type: application/json
+
+{
+    "correo": "carlos@example.com",
+    "contraseña": "passwordSeguro"
 }

@@ -13,7 +13,9 @@ export const login = async (request, response) => {
     const { correo, contraseña } = request.body;
 
     try {
-        const user = await User.findOne({ correo: correo });
+        // Busca al usuario Y trae la información de su perfil con .populate()
+        const user = await User.findOne({ correo: correo }).populate('perfil_id', 'nombre');
+        
         if (!user) {
             return response.status(401).json({ message: "Sin autorización: Credenciales incorrectas" });
         }
@@ -23,12 +25,13 @@ export const login = async (request, response) => {
             return response.status(401).json({ message: "Sin autorización: Credenciales incorrectas" });
         }
         
+        // --- AQUÍ ESTÁ LA MEJORA ---
+        // Ahora guardamos el nombre del perfil en el token
         const payload = {
             usuario: {
                 id: user._id,
-                nombre: user.nombre,
                 nick: user.nick,
-                perfil_id: user.perfil_id
+                perfil: user.perfil_id.nombre // <-- Guardamos "Administrador" directamente
             }
         };
 
@@ -36,6 +39,7 @@ export const login = async (request, response) => {
         response.status(200).json({ message: "Login con éxito", token: token });
 
     } catch (err) {
+        console.error(err);
         response.status(500).send('Error en el servidor');
     }
 };

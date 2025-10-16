@@ -16,8 +16,11 @@ export const authenticateAdmin = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        if (decoded.usuario.perfil_id === 1) {
-            req.user = decoded.usuario; 
+        
+        // --- AQUÍ ESTÁ LA CORRECCIÓN ---
+        // Comprueba si el perfil en el token es "Administrador"
+        if (decoded.usuario.perfil === 'Administrador') {
+            req.user = decoded.usuario;
             next();
         } else {
             return res.status(403).send({ message: 'Sin autorización: Se requiere rol de Administrador' });
