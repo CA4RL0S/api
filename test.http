@@ -1,0 +1,189 @@
+# Variables Globales (ajusta si es necesario)
+@host = http://localhost:3000
+@api_path = /api
+@authToken = {{loginUser.response.body.token}}
+
+###
+# ===================================================
+# 1. PRUEBAS DE PERFILES (/perfiles) 👤
+# ===================================================
+
+# POST - Crear un perfil de Administrador
+# @name createAdminProfile
+POST {{host}}{{api_path}}/perfiles
+Content-Type: application/json
+
+{
+  "nombre": "Administrador"
+}
+
+###
+# Capturar el ID del perfil creado
+@adminProfileId = {{createAdminProfile.response.body._id}}
+
+# POST - Crear un perfil de Editor
+POST {{host}}{{api_path}}/perfiles
+Content-Type: application/json
+
+{
+  "nombre": "Editor"
+}
+
+###
+# GET - Obtener todos los perfiles
+GET {{host}}{{api_path}}/perfiles
+
+###
+# ===================================================
+# 2. PRUEBAS DE ESTADOS (/estados) 🚥
+# ===================================================
+
+# POST - Crear un estado "Publicado"
+# @name createPublishedState
+POST {{host}}{{api_path}}/estados
+Content-Type: application/json
+
+{
+  "nombre": "Publicado",
+  "abreviacion": "PUB"
+}
+
+###
+# Capturar el ID del estado creado
+@publishedStateId = {{createPublishedState.response.body._id}}
+
+# POST - Crear un estado "Borrador"
+POST {{host}}{{api_path}}/estados
+Content-Type: application/json
+
+{
+  "nombre": "Borrador",
+  "abreviacion": "BOR"
+}
+
+###
+# ===================================================
+# 3. PRUEBAS DE CATEGORÍAS (/categorias) 📂
+# ===================================================
+
+# POST - Crear una categoría de "Tecnología"
+# @name createTechCategory
+POST {{host}}{{api_path}}/categorias
+Content-Type: application/json
+
+{
+  "nombre": "Tecnología",
+  "descripcion": "Noticias sobre el mundo tech."
+}
+
+###
+# Capturar el ID de la categoría creada
+@techCategoryId = {{createTechCategory.response.body._id}}
+
+###
+# ===================================================
+# 4. PRUEBAS DE USUARIOS (/usuarios) 🧑‍💻
+# ===================================================
+
+# POST - Crear un usuario Administrador
+# @name createUser
+POST {{host}}{{api_path}}/usuarios
+Content-Type: application/json
+
+{
+  "nombre": "Carlos",
+  "apellidos": "Santana",
+  "nick": "csantana",
+  "perfil_id": "68f059ef20f76df3e46139a5"
+}
+
+###
+# Capturar el ID del usuario creado
+@userId = {{createUser.response.body._id}}
+
+# GET - Obtener todos los usuarios (y verificar el perfil poblado)
+GET {{host}}{{api_path}}/usuarios
+
+###
+# GET - Obtener un usuario por ID
+GET {{host}}{{api_path}}/usuarios/{{userId}}
+
+###
+# ===================================================
+# 5. PRUEBAS DE NOTICIAS (/noticias) 📰
+# ===================================================
+
+# POST - Crear una nueva noticia
+# @name createNews
+POST {{host}}{{api_path}}/noticias
+Content-Type: application/json
+
+{
+  "titulo": "Lanzamiento del nuevo Node.js v22",
+  "activo": true,
+  "categoria_id": "{{techCategoryId}}",
+  "estado_id": "{{publishedStateId}}",
+  "usuario_id": "{{userId}}"
+}
+
+###
+# Capturar el ID de la noticia creada
+@newsId = {{createNews.response.body._id}}
+
+# GET - Obtener todas las noticias (verificar todas las relaciones pobladas)
+GET {{host}}{{api_path}}/noticias
+
+###
+# GET - Obtener la noticia creada por su ID
+GET {{host}}{{api_path}}/noticias/{{newsId}}
+
+###
+# PUT - Actualizar el título de la noticia
+PUT {{host}}{{api_path}}/noticias/{{newsId}}
+Content-Type: application/json
+
+{
+  "titulo": "ACTUALIZADO: El nuevo Node.js v22 es más rápido que nunca"
+}
+
+###
+# DELETE - Eliminar la noticia creada
+DELETE {{host}}{{api_path}}/noticias/{{newsId}}
+
+###
+# ===================================================
+# AUTH - Registrar un nuevo usuario (Contribuidor)
+# ===================================================
+# @name registerUser
+POST {{host}}/api/auth/register
+Content-Type: application/json
+
+{
+  "nombre": "Ana",
+  "apellidos": "Gomez",
+  "nick": "anag",
+  "correo": "ana.gomez@example.com",
+  "contraseña": "passwordSeguro123"
+}
+
+###
+# AUTH - Iniciar sesión para obtener un token
+# ===================================================
+# @name loginUser
+POST {{host}}/api/auth/login
+# --- ESTA LÍNEA ES LA MÁS IMPORTANTE ---
+Content-Type: application/json
+
+{
+    "correo": "ana.gomez@example.com",
+    "contraseña": "passwordSeguro123"
+}
+
+###
+# PROBAR RUTA PROTEGIDA (SIN TOKEN) - DEBE FALLAR
+GET {{host}}/api/users
+
+###
+# PROBAR RUTA PROTEGIDA (CON TOKEN) - DEBE FUNCIONAR
+GET {{host}}/api/users
+Authorization: Bearer {{authToken}}

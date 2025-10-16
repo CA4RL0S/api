@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard CRUD</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+    </header>
+    <div class="container">
+        <nav>
+            <ul>
+                <li data-target="profiles" class="active">👤 Perfiles</li>
+                <li data-target="states">🚥 Estados</li>
+                <li data-target="categories">📂 Categorías</li>
+                <li data-target="users">🧑‍💻 Usuarios</li>
+                <li data-target="news">📰 Noticias</li>
+            </ul>
+        </nav>
+        <main>
+            <section id="profiles-section">
+                <h2>Gestionar Perfiles</h2>
+                <button id="btn-new-profile" class="btn btn-primary">Crear Nuevo Perfil</button>
+                <form id="profile-form" class="hidden">
+                    <input type="hidden" id="profile-id">
+                    <label for="profile-nombre">Nombre:</label>
+                    <input type="text" id="profile-nombre" required>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="button" id="btn-cancel-profile" class="btn">Cancelar</button>
+                </form>
+                <table id="profiles-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="profiles-table-body"></tbody>
+                </table>
+            </section>
+
+            <section id="states-section" class="hidden">
+                <h2>Gestionar Estados</h2>
+                <button id="btn-new-state" class="btn btn-primary">Crear Nuevo Estado</button>
+                <form id="state-form" class="hidden">
+                    <input type="hidden" id="state-id">
+                    <label for="state-nombre">Nombre:</label>
+                    <input type="text" id="state-nombre" required>
+                    <label for="state-abreviacion">Abreviación:</label>
+                    <input type="text" id="state-abreviacion" required>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="button" id="btn-cancel-state" class="btn">Cancelar</button>
+                </form>
+                <table id="states-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Abreviación</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="states-table-body"></tbody>
+                </table>
+            </section>
+
+             <section id="categories-section" class="hidden">
+                <h2>Gestionar Categorías</h2>
+                <button id="btn-new-category" class="btn btn-primary">Crear Nueva Categoría</button>
+                <form id="category-form" class="hidden">
+                    <input type="hidden" id="category-id">
+                    <label for="category-nombre">Nombre:</label>
+                    <input type="text" id="category-nombre" required>
+                    <label for="category-descripcion">Descripción:</label>
+                    <input type="text" id="category-descripcion">
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="button" id="btn-cancel-category" class="btn">Cancelar</button>
+                </form>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="categories-table-body"></tbody>
+                </table>
+            </section>
+            
+            <section id="users-section" class="hidden">
+                <h2>Gestionar Usuarios</h2>
+                <button id="btn-new-user" class="btn btn-primary">Crear Nuevo Usuario</button>
+                <form id="user-form" class="hidden">
+                    <input type="hidden" id="user-id">
+                    <label for="user-nombre">Nombre:</label>
+                    <input type="text" id="user-nombre" required>
+                    <label for="user-apellidos">Apellidos:</label>
+                    <input type="text" id="user-apellidos" required>
+                    <label for="user-nick">Nick:</label>
+                    <input type="text" id="user-nick" required>
+                    <label for="user-perfil">Perfil:</label>
+                    <select id="user-perfil" required></select>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="button" id="btn-cancel-user" class="btn">Cancelar</button>
+                </form>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nick</th>
+                            <th>Nombre Completo</th>
+                            <th>Perfil</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body"></tbody>
+                </table>
+            </section>
+
+            <section id="news-section" class="hidden">
+                <h2>Gestionar Noticias</h2>
+                <button id="btn-new-new" class="btn btn-primary">Crear Nueva Noticia</button>
+                <form id="new-form" class="hidden">
+                    <input type="hidden" id="new-id">
+                    <label for="new-titulo">Título:</label>
+                    <input type="text" id="new-titulo" required>
+                    <label for="new-categoria">Categoría:</label>
+                    <select id="new-categoria" required></select>
+                    <label for="new-estado">Estado:</label>
+                    <select id="new-estado" required></select>
+                    <label for="new-usuario">Usuario:</label>
+                    <select id="new-usuario" required></select>
+                    <button type="submit" class="btn btn-success">Guardar</button>
+                    <button type="button" id="btn-cancel-new" class="btn">Cancelar</button>
+                </form>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Categoría</th>
+                            <th>Estado</th>
+                            <th>Usuario</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="news-table-body"></tbody>
+                </table>
+            </section>
+
+        </main>
+    </div>
+    <script src="app.js" defer></script>
+</body>
+</html>
