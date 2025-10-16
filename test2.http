@@ -15,7 +15,7 @@ Content-Type: application/json
 
 ###
 GET {{host}}/api/users
-Authorization: Bearer {{authToken}}
+Authorization: Bearer "{{authToken}}"
 
 ###
 
@@ -40,5 +40,5 @@ Content-Type: application/json
 
 {
     "correo": "carlos@example.com",
-    "contraseña": "passwordSeguro"
+    "contraseña": "passwordSeguro123"
 }
