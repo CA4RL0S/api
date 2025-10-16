@@ -15,7 +15,7 @@ Content-Type: application/json
 
 ###
 GET {{host}}/api/users
-Authorization: Bearer "{{authToken}}"
+Authorization: Bearer {{authToken}}
 
 ###
 
